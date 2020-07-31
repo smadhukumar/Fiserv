@@ -1,6 +1,8 @@
-# Lab 1 -  Oracle to CloudERA Hadoop
+# Lab 1 -  Replicating Cloudera Hadoop
 
 ## Before You Begin
+### Environment details 
+
 -Hadoop 3.0.0-cdh6.3.2
 -GoldenGate 19c for BigData
 -Hadoop client libraries at ***/opt/cloudera/parcels/CDH/lib/hadoop/client/* ***
