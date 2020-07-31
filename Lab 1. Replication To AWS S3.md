@@ -1,36 +1,16 @@
-# Lab 1 -  Oracle to AWS S3
+# Lab 1 -  Oracle to CloudERA Hadoop
 
 ## Before You Begin
--AWS SDK 
--Create a S3 bucket on your AWS Instance, Follow the link for reference-
-https://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html
-
--Attach the following policies to the newly/existed user to allow access and GET/Put Operations on AWS S3:
-AmazonS3FullAccess in AWS.
-
--You need to attach the following inline policy as json:
-
-```
-{
-  "Version": "2012-10-17",
-  "Statement": [{
-      "Sid": "VisualEditor1",
-      "Effect": "Allow",
-      "Action": ["s3:PutObject", "s3:GetObject"],
-      "Resource": [
-        "arn:aws:s3:::examplebucket/*"
-      ]
-   }
-}
-
-```
+-Hadoop 3.0.0-cdh6.3.2
+-GoldenGate 19c for BigData
+-Hadoop client libraries at ***/opt/cloudera/parcels/CDH/lib/hadoop/client/* ***
 
 
 ### Introduction
- This lab will guide through the steps required to start a replication of data between an Oracle database and AWS S3.
+ This lab will guide through the steps required to start a replication to CloudERA Hadoop.
 
 ### Objectives
-- Replicate from trail files on the target machine to AWS S3.
+- Replicate from trail files on the target machine to CloudERA Hadoop.
 
 ### Time to Complete
 Approximately 30 minutes
@@ -41,58 +21,54 @@ You will need:
 - Putty if you are using windows machine
 
 
-1. Kindly create S3 props and prm files under dirprm goldengate home directory
+1. Kindly create hdfs props and prm files under dirprm goldengate home directory
 
 ```
-[oracle@gg4bd-target01 ggbd_home1]$ cd dirprm
-[oracle@gg4bd-target01 dirprm]$ vi s3.props
+[oracle@hol ~]$cd <GOLDENGATE_FOR_BIGDATA_HOME>/dirprm
+[oracle@hol dirprm]$ vi hdfs.props
+
 
 ```
 Copy paste the below text in s3.props.
 
 
-## AWS S3 properties for GG4BD
+## CloudERA Hadoop properties for GG4BD
 
 ```
-gg.handlerlist=filewriter
-#The File Writer Handler
-gg.handler.filewriter.type=filewriter
-gg.handler.filewriter.mode=op
-gg.handler.filewriter.pathMappingTemplate=./dirout
-gg.handler.filewriter.stateFileDirectory=./dirsta
-gg.handler.filewriter.fileNameMappingTemplate=${fullyQualifiedTableName}_${currentTimestamp}.txt
-gg.handler.filewriter.fileRollInterval=7m
-gg.handler.filewriter.finalizeAction=delete
-gg.handler.filewriter.inactivityRollInterval=7m
-gg.handler.filewriter.format=avro_row_ocf
-gg.handler.filewriter.includetokens=true
-gg.handler.filewriter.partitionByTable=true
+gg.handlerlist=hdfs
 
-#Selecting the Parquet Event Handler
-gg.handler.filewriter.eventHandler=s3
-gg.handler.filewriter.rollOnShutdown=true
+gg.handler.hdfs.type=hdfs
+gg.handler.hdfs.includeTokens=false
+gg.handler.hdfs.maxFileSize=1g
+gg.handler.hdfs.pathMappingTemplate=/ogg1
+gg.handler.hdfs.fileRollInterval=0
+gg.handler.hdfs.inactivityRollInterval=0
+gg.handler.hdfs.fileNameMappingTemplate=${fullyQualifiedTableName}_${groupName}_${currentTimestamp}.txt
+gg.handler.hdfs.partitionByTable=true
+gg.handler.hdfs.rollOnMetadataChange=true
+gg.handler.hdfs.authType=none
+gg.handler.hdfs.format=delimitedtext
+gg.handler.hdfs.format.includeColumnNames=true
 
-#The S3 Event Handler
-gg.eventhandler.s3.type=s3
-gg.eventhandler.s3.region=ap-south-1
-gg.eventhandler.s3.bucketMappingTemplate=oraclegg
-gg.eventhandler.s3.pathMappingTemplate=oraclegg
-gg.eventhandler.s3.finalizeAction=none
+gg.handler.hdfs.mode=tx
 
-goldengate.userexit.timestamp=utc
 goldengate.userexit.writers=javawriter
 javawriter.stats.display=TRUE
 javawriter.stats.full=TRUE
+
 gg.log=log4j
 gg.log.level=INFO
-gg.includeggtokens=true
+
 gg.report.time=30sec
-#Set the classpath for AWS S3  - Need the AWS Java SDK
-gg.classpath=/u01/app/aws/aws-java-sdk-1.11.718/lib/*:/u01/app/aws/aws-java-sdk-1.11.718/third-party/lib/*
 
-#Set the heap memory
-javawriter.bootoptions=-Xmx512m -Xms32m -Djava.class.path=.:ggjava/ggjava.jar:./dirprm -Daws.accessKeyId=<access-key-of-new-created-user> -Daws.secretKey=<secret-ke-new-created-user>
+#Sample gg.classpath for Apache Hadoop
+#gg.classpath=/var/lib/hadoop/share/hadoop/common/*:/var/lib/hadoop/share/hadoop/common/lib/*:/var/lib/hadoop/share/hadoop/hdfs/*:/var/lib/hadoop/share/hadoop/hdfs/lib/*:/var/lib/hadoop/etc/hadoop/:
+#Sample gg.classpath for CDH
+gg.classpath=/opt/cloudera/parcels/CDH/lib/hadoop/client/*:/etc/hadoop/conf
+#Sample gg.classpath for HDP
+#gg.classpath=/usr/hdp/current/hadoop-client/client/*:/etc/hadoop/conf
 
+javawriter.bootoptions=-Xmx512m -Xms32m -Djava.class.path=ggjava/ggjava.jar
 ```
 Save the text using wq!
 
@@ -115,7 +91,7 @@ MAP QASOURCE.*, TARGET QASOURCE.*;
 add replicat s3, exttrail AdapterExamples/trail/tr
 
 ```
-4. Crosscheck for AWS S3 replicat’s status, RBA and stats.
+4. Crosscheck for CloudERA Hadoop replicat’s status, RBA and stats.
 Once you get the stats, you can view the s3.log from. /dirrpt directory which gives information about data sent to kinesis data stream and operations performed.
 ![](/images/s3/s3_002.JPG)
 
