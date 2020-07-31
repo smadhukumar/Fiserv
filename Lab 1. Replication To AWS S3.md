@@ -22,9 +22,10 @@ Approximately 30 minutes
 You will need:
 - Putty if you are using windows machine
 - Creae target path like below 
+```
 [root@hol ~]# sudo -u hdfs hdfs dfs -chown oracle:oinstall  /ogg1
 [root@hol ~]# sudo -u hdfs hdfs dfs -chown -R oracle:oinstall  /ogg1
-
+```
 
 
 1. Kindly create hdfs props and prm files under dirprm goldengate home directory
@@ -79,15 +80,21 @@ Save the text using wq!
 
 2. Edit the Replicat Parameter file to include the schema_name & table_name that needs to be replicated.
 ```
-REPLICAT hdfs
+[oracle@hol ~]$cd <GOLDENGATE_FOR_BIGDATA_HOME>/dirprm
+[oracle@hol dirprm]$ vi rhdfs.prm
+
+```
+Copy paste the below text in rhdfs.prm
+```
+REPLICAT rhdfs
 -- Trail file for this example is located in "AdapterExamples/trail" directory
 -- Command to add REPLICAT
--- add replicat fw, exttrail AdapterExamples/trail/tr
--- SETENV(GGS_JAVAUSEREXIT_CONF = 'dirprm/fw.props')
-TARGETDB LIBFILE libggjava.so SET property=dirprm/f.props
+-- add replicat rhdfs, exttrail AdapterExamples/trail/tr
+TARGETDB LIBFILE libggjava.so SET property=dirprm/hdfs.props
 REPORTCOUNT EVERY 1 MINUTES, RATE
-GROUPTRANSOPS 1000
+GROUPTRANSOPS 10000
 MAP QASOURCE.*, TARGET QASOURCE.*;
+
 
 ```
 3. Add the replicat with the below command.
