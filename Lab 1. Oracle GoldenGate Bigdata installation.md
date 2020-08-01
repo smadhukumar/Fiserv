@@ -1,6 +1,6 @@
 # Lab 1 -  Oracle GoldenGate forBigdat Installation
 
-![](/images/bd/gg.gif)
+
 ## Before You Begin
 ### Environment details :loudspeaker:
 
