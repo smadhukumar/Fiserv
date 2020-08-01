@@ -1,18 +1,14 @@
-# Lab 1 -  Replicating to Cloudera Hadoop
+# Lab 1 -  oracle GoldenGate forBigdat Installation
 
 ## Before You Begin
 ### Environment details 
 
-- Hadoop 3.0.0-cdh6.3.2
+- Linux 64 bit OS
 - GoldenGate 19c for BigData
-- Hadoop client libraries at *** /opt/Cloudera/parcels/CDH/lib/hadoop/client/ ***
 
 
 ### Introduction
- This lab will guide through the steps required to start a replication to Cloudera Hadoop.
-
-### Objectives
-- Replicate from trail files on the target machine to Cloudera Hadoop.
+ This lab will guide through the steps required for installation of the GoldenGate for Bigdata.
 
 ### Time to Complete
 Approximately 30 minutes
@@ -21,213 +17,116 @@ Approximately 30 minutes
 ### What Do You Need?
 You will need:
 - Putty if you are using windows machine
-- Creae target path like below 
-```
-[root@hol ~]# sudo -u hdfs hdfs dfs -chown oracle:oinstall  /ogg1
-[root@hol ~]# sudo -u hdfs hdfs dfs -chown -R oracle:oinstall  /ogg1
-```
 
+## Installation of GG4BD
 
-1. Kindly create hdfs props and prm files under dirprm goldengate home directory
+1. Download the GoldenGate for bigdata binaries from Oracle site 
 
 ```
-[oracle@hol ~]$cd <GOLDENGATE_FOR_BIGDATA_HOME>/dirprm
-[oracle@hol dirprm]$ vi hdfs.props
+- click on the link https://www.oracle.com/in/middleware/technologies/goldengate-downloads.html
+- Select **"Oracle GoldenGate for Big Data 19.1.0.0.1 on Linux x86-64"**
+![](/images/bd/bd_1.png)
+```
+2. accpet the Oracle license agreement and press Download button
+![](/images/bd/bd_2.png)
+
+3. login the Oracel SSO login portal by passing registered usename and press
+ ![](/images/bd/bd_3.png)
+
+4. Save the Oracle Bigdata Binaries Files to Local desktop
+![](/images/bd/bd_4.png)
+
+
+5. Winscp the GG for Bigdata binaries to target GG bigdata environment 
+
+
+6. Unzip and untar the gg4bd binaries 
 
 ```
-Copy paste the below text in hdfs.props.
-
-
-## Cloudera Hadoop properties for GG4BD
+[oracle@hol Downloads]$ mkdir /u01/ggbd
+[oracle@hol Downloads]$ cd /u01/ggbd/
+[oracle@hol ggbd]$ ll
+total 314396
+-rw-r--r--. 1 oracle oinstall      1371 Oct  8  2019 OGGBD-19.1.0.0-README.txt
+-rw-r--r--. 1 oracle oinstall    339834 Oct  8  2019 OGG_BigData_19.1.0.0.1_Release_Notes.pdf
+-rw-rw-r--. 1 oracle oinstall 321597440 Sep 25  2019 OGG_BigData_Linux_x64_19.1.0.0.1.tar
+[oracle@hol ggbd]$ tar -xvf OGG_BigData_Linux_x64_19.1.0.0.1.tar
+```
+7. set the environment variable 
 
 ```
-gg.handlerlist=hdfs
-
-gg.handler.hdfs.type=hdfs
-gg.handler.hdfs.includeTokens=false
-gg.handler.hdfs.maxFileSize=1g
-gg.handler.hdfs.pathMappingTemplate=/ogg1
-gg.handler.hdfs.fileRollInterval=0
-gg.handler.hdfs.inactivityRollInterval=0
-gg.handler.hdfs.fileNameMappingTemplate=${fullyQualifiedTableName}_${groupName}_${currentTimestamp}.txt
-gg.handler.hdfs.partitionByTable=true
-gg.handler.hdfs.rollOnMetadataChange=true
-gg.handler.hdfs.authType=none
-gg.handler.hdfs.format=delimitedtext
-gg.handler.hdfs.format.includeColumnNames=true
-
-gg.handler.hdfs.mode=tx
-
-goldengate.userexit.writers=javawriter
-javawriter.stats.display=TRUE
-javawriter.stats.full=TRUE
-
-gg.log=log4j
-gg.log.level=INFO
-
-gg.report.time=30sec
-
-#Sample gg.classpath for Apache Hadoop
-#gg.classpath=/var/lib/hadoop/share/hadoop/common/*:/var/lib/hadoop/share/hadoop/common/lib/*:/var/lib/hadoop/share/hadoop/hdfs/*:/var/lib/hadoop/share/hadoop/hdfs/lib/*:/var/lib/hadoop/etc/hadoop/:
-#Sample gg.classpath for CDH
-gg.classpath=/opt/Cloudera/parcels/CDH/lib/hadoop/client/*:/etc/hadoop/conf
-#Sample gg.classpath for HDP
-#gg.classpath=/usr/hdp/current/hadoop-client/client/*:/etc/hadoop/conf
-
-javawriter.bootoptions=-Xmx512m -Xmhdfs2m -Djava.class.path=ggjava/ggjava.jar
-```
-Save the text using wq!
-
-2. Edit the Replicat Parameter file to include the schema_name & table_name that needs to be replicated.
-```
-[oracle@hol ~]$cd <GOLDENGATE_FOR_BIGDATA_HOME>/dirprm
-[oracle@hol dirprm]$ vi rhdfs.prm
+[oracle@hol ggbd]$ export JAVA_HOME=<<JAVA_HOME>
+[oracle@hol ggbd]$ export PATH=$JAVA_HOME/bin:$PATH
+[oracle@hol ggbd]$ export LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64/server
 
 ```
-Copy paste the below text in rhdfs.prm
-```
-REPLICAT rhdfs
--- Trail file for this example is located in "AdapterExamples/trail" directory
--- Command to add REPLICAT
--- add replicat rhdfs, exttrail AdapterExamples/trail/tr
-TARGETDB LIBFILE libggjava.so SET property=dirprm/hdfs.props
-REPORTCOUNT EVERY 1 MINUTES, RATE
-GROUPTRANSOPS 10000
-MAP QASOURCE.*, TARGET QASOURCE.*;
 
+8. go to GG4BD untar folder location and do the below steps
 
 ```
-3. Add the replicat with the below command.
 
-```
-[oracle@hol dirprm]$ ../ggsci
+[oracle@hol ggbd]$ pwd
+/u01/ggbd
+[oracle@hol ggbd]$ ./ggsci
 
 Oracle GoldenGate for Big Data
-Version 19.1.0.0.4 (Build 001)
+Version 19.1.0.0.1 (Build 003)
 
 Oracle GoldenGate Command Interpreter
-Version 19.1.0.0.2 OGGCORE_OGGADP.19.1.0.0.2_PLATFORMS_200508.0538
-Linux, x64, 64bit (optimized), Generic on May  8 2020 07:21:07
+Version 19.1.0.0.2 OGGCORE_OGGADP.19.1.0.0.2_PLATFORMS_190916.0039
+Linux, x64, 64bit (optimized), Generic on Sep 16 2019 02:12:32
 Operating system character set identified as UTF-8.
 
 Copyright (C) 1995, 2019, Oracle and/or its affiliates. All rights reserved.
 
 
 
-GGSCI (hol) 1> add replicat rhdfs, exttrail AdapterExamples/trail/tr
-REPLICAT added.
+GGSCI (hol) 1> create subdirs
+
+Creating subdirectories under current directory /u01/ggbd
+
+Parameter file                 /u01/ggbd/dirprm: created.
+Report file                    /u01/ggbd/dirrpt: created.
+Checkpoint file                /u01/ggbd/dirchk: created.
+Process status files           /u01/ggbd/dirpcs: created.
+SQL script files               /u01/ggbd/dirsql: created.
+Database definitions files     /u01/ggbd/dirdef: created.
+Extract data files             /u01/ggbd/dirdat: created.
+Temporary files                /u01/ggbd/dirtmp: created.
+Credential store files         /u01/ggbd/dircrd: created.
+Masterkey wallet files         /u01/ggbd/dirwlt: created.
+Dump files                     /u01/ggbd/dirdmp: created.
 
 
-GGSCI (hol) 2> info all
+GGSCI (hol) 2> edit params mgr
+
+
+
+GGSCI (hol) 3> view params mgr
+
+PORT 7810
+
+
+GGSCI (hol) 4> start mgr
+Manager started.
+
+
+GGSCI (hol) 5> info mgr
+
+Manager is running (IP port TCP:hol.7810, Process ID 1935).
+
+
+GGSCI (hol) 6> info all
 
 Program     Status      Group       Lag at Chkpt  Time Since Chkpt
 
 MANAGER     RUNNING
-REPLICAT    STOPPED     RHDFS       00:00:00      00:00:03
 
-
-GGSCI (hol) 3> start RHDFS
-
-Sending START request to MANAGER ...
-REPLICAT RHDFS starting
-
-
-GGSCI (hol) 4> info all
-
-Program     Status      Group       Lag at Chkpt  Time Since Chkpt
-
-MANAGER     RUNNING
-REPLICAT    RUNNING     RHDFS       00:00:00      00:00:04
-
-
-GGSCI (hol) 5> stats rhdfs
-
-Sending STATS request to REPLICAT RHDFS ...
-
-Start of Statistics at 2020-07-31 16:18:24.
-
-Replicating from QASOURCE.TCUSTMER to QASOURCE.TCUSTMER:
-
-*** Total statistics since 2020-07-31 14:39:24 ***
-        Total inserts                                      5.00
-        Total updates                                      1.00
-        Total deletes                                      0.00
-        Total upserts                                      0.00
-        Total discards                                     0.00
-        Total operations                                   6.00
-
-*** Daily statistics since 2020-07-31 14:39:24 ***
-        Total inserts                                      5.00
-        Total updates                                      1.00
-        Total deletes                                      0.00
-        Total upserts                                      0.00
-        Total discards                                     0.00
-        Total operations                                   6.00
-
-*** Hourly statistics since 2020-07-31 14:39:24 ***
-        Total inserts                                      5.00
-        Total updates                                      1.00
-        Total deletes                                      0.00
-        Total upserts                                      0.00
-        Total discards                                     0.00
-        Total operations                                   6.00
-
-*** Latest statistics since 2020-07-31 14:39:24 ***
-        Total inserts                                      5.00
-        Total updates                                      1.00
-        Total deletes                                      0.00
-        Total upserts                                      0.00
-        Total discards                                     0.00
-        Total operations                                   6.00
-
-Replicating from QASOURCE.TCUSTORD to QASOURCE.TCUSTORD:
-
-*** Total statistics since 2020-07-31 14:39:24 ***
-        Total inserts                                      5.00
-        Total updates                                      3.00
-        Total deletes                                      2.00
-        Total upserts                                      0.00
-        Total discards                                     0.00
-        Total operations                                  10.00
-
-*** Daily statistics since 2020-07-31 14:39:24 ***
-        Total inserts                                      5.00
-        Total updates                                      3.00
-        Total deletes                                      2.00
-        Total upserts                                      0.00
-        Total discards                                     0.00
-        Total operations                                  10.00
-
-*** Hourly statistics since 2020-07-31 14:39:24 ***
-        Total inserts                                      5.00
-        Total updates                                      3.00
-        Total deletes                                      2.00
-        Total upserts                                      0.00
-        Total discards                                     0.00
-        Total operations                                  10.00
-
-*** Latest statistics since 2020-07-31 14:39:24 ***
-        Total inserts                                      5.00
-        Total updates                                      3.00
-        Total deletes                                      2.00
-        Total upserts                                      0.00
-        Total discards                                     0.00
-        Total operations                                  10.00
-
-End of Statistics.
-
-
-GGSCI (hol) 6> 
 
 ```
-4. Crosscheck at Cloudera Hadoop for the replicat’s status
 
-```
-[oracle@hol ggbd]$ hdfs dfs -ls /ogg1
-Found 2 items
--rw-r--r--   3 oracle oinstall        905 2020-07-31 14:39 /ogg1/QASOURCE.TCUSTMER_RHDFS_2020-07-31_14-39-24.538.txt
--rw-r--r--   3 oracle oinstall       2305 2020-07-31 14:39 /ogg1/QASOURCE.TCUSTORD_RHDFS_2020-07-31_14-39-25.896.txt
-``` 
+
+
 
 
 
