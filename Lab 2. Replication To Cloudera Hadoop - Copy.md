@@ -1,18 +1,14 @@
-# Lab 1 -  Replicating to Cloudera Hadoop
+# Lab 1 -  oracle GoldenGate forBigdat Installation
 
 ## Before You Begin
 ### Environment details 
 
-- Hadoop 3.0.0-cdh6.3.2
+- Linux 64 bit OS
 - GoldenGate 19c for BigData
-- Hadoop client libraries at *** /opt/Cloudera/parcels/CDH/lib/hadoop/client/ ***
 
 
 ### Introduction
- This lab will guide through the steps required to start a replication to Cloudera Hadoop.
-
-### Objectives
-- Replicate from trail files on the target machine to Cloudera Hadoop.
+ This lab will guide through the steps required for installation of the GoldenGate for Bigdata.
 
 ### Time to Complete
 Approximately 30 minutes
@@ -21,16 +17,17 @@ Approximately 30 minutes
 ### What Do You Need?
 You will need:
 - Putty if you are using windows machine
-- Creae target path like below 
+
+
+1. Download the GoldenGate for bigdata binaries from Oracle site 
+
 ```
-[root@hol ~]# sudo -u hdfs hdfs dfs -chown oracle:oinstall  /ogg1
-[root@hol ~]# sudo -u hdfs hdfs dfs -chown -R oracle:oinstall  /ogg1
+- click on the link https://www.oracle.com/in/middleware/technologies/goldengate-downloads.html
+- Select **"Oracle GoldenGate for Big Data 19.1.0.0.1 on Linux x86-64"**
+![](/images/bd/bd_1.png)
 ```
 
 
-1. Kindly create hdfs props and prm files under dirprm goldengate home directory
-
-```
 [oracle@hol ~]$cd <GOLDENGATE_FOR_BIGDATA_HOME>/dirprm
 [oracle@hol dirprm]$ vi hdfs.props
 
