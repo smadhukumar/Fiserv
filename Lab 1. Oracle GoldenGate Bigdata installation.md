@@ -23,28 +23,29 @@ You will need:
 1. Download the GoldenGate for bigdata binaries from Oracle site 
 
 
-- click on the link https://www.oracle.com/in/middleware/technologies/goldengate-downloads.html
-- Select **"Oracle GoldenGate for Big Data 19.1.0.0.1 on Linux x86-64"**
+- click on the link https://www.oracle.com/in/middleware/technologies/goldengate-downloads.html (https://www.oracle.com/in/middleware/technologies/goldengate-downloads.html)
+- Select ***Oracle GoldenGate for Big Data 19.1.0.0.1 on Linux x86-64***
 
 ![](/images/bd/bd_1.png)
 
 2. accpet the Oracle license agreement and press Download button
 ![](/images/bd/bd_2.png)
 
-3. login the Oracel SSO login portal by passing registered usename and press
+3. login the Oracel SSO portal by passing registered usename and password
  ![](/images/bd/bd_3.png)
 
 4. Save the Oracle Bigdata Binaries Files to Local desktop
 ![](/images/bd/bd_4.png)
 
 
-5. Winscp the GG for Bigdata binaries to target GG bigdata environment 
+5. Winscp the saved GG for Bigdata binaries from LOCAL system to target GG bigdata environment 
 
 
 6. Unzip and untar the gg4bd binaries 
 
 ```
 [oracle@hol Downloads]$ mkdir /u01/ggbd
+[oracle@hol Downloads]$ unzip -d /u01/ggbd -q OGG_BigData_Linux_x64_19.1.0.0.1.zip
 [oracle@hol Downloads]$ cd /u01/ggbd/
 [oracle@hol ggbd]$ ll
 total 314396
@@ -52,7 +53,9 @@ total 314396
 -rw-r--r--. 1 oracle oinstall    339834 Oct  8  2019 OGG_BigData_19.1.0.0.1_Release_Notes.pdf
 -rw-rw-r--. 1 oracle oinstall 321597440 Sep 25  2019 OGG_BigData_Linux_x64_19.1.0.0.1.tar
 [oracle@hol ggbd]$ tar -xvf OGG_BigData_Linux_x64_19.1.0.0.1.tar
+
 ```
+
 7. set the environment variable 
 
 ```
@@ -62,7 +65,7 @@ total 314396
 
 ```
 
-8. go to GG4BD untar folder location and do the below steps
+8. Go to GG4BD untar folder location and do the below steps
 
 ```
 
