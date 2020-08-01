@@ -1,7 +1,7 @@
 # Lab 1 -  Oracle GoldenGate forBigdat Installation
 
 ## Before You Begin
-### Environment details 
+### Environment details :loudspeaker:
 
 - Linux 64 bit OS
 - GoldenGate 19c for BigData
@@ -10,7 +10,7 @@
 ### Introduction
  This lab will guide through the steps required for installation of the GoldenGate for Bigdata.
 
-### Time to Complete
+### Time to Complete :alarm_clock:
 Approximately 30 minutes
 
 
@@ -132,7 +132,7 @@ MANAGER     RUNNING
 ```
 
 
-You have completed lab 1 :) ! Great Job!:!
+:sunglasses::sunglasses:You have completed lab 1 :star: ! Great Job! :+1:
 
 
 
