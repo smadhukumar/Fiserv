@@ -22,10 +22,10 @@ You will need:
 
 1. Download the GoldenGate for bigdata binaries from Oracle site 
 
-```
+
 - click on the link https://www.oracle.com/in/middleware/technologies/goldengate-downloads.html
 - Select **"Oracle GoldenGate for Big Data 19.1.0.0.1 on Linux x86-64"**
-```
+
 ![](/images/bd/bd_1.png)
 
 2. accpet the Oracle license agreement and press Download button
