@@ -104,7 +104,9 @@ Dump files                     /u01/ggbd/dirdmp: created.
 
 GGSCI (hol) 2> edit params mgr
 
-
+add port details to manager file
+example : PORT 7810
+          PORT 16000
 
 GGSCI (hol) 3> view params mgr
 
@@ -130,7 +132,7 @@ MANAGER     RUNNING
 ```
 
 
-
+You have completed lab 1 :) ! Great Job!:!
 
 
 
