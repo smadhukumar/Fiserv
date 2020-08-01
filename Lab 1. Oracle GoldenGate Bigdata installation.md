@@ -1,4 +1,4 @@
-# Lab 1 -  oracle GoldenGate forBigdat Installation
+# Lab 1 -  Oracle GoldenGate forBigdat Installation
 
 ## Before You Begin
 ### Environment details 
@@ -23,15 +23,15 @@ You will need:
 1. Download the GoldenGate for bigdata binaries from Oracle site 
 
 
-- click on the link https://www.oracle.com/in/middleware/technologies/goldengate-downloads.html (https://www.oracle.com/in/middleware/technologies/goldengate-downloads.html)
+- Click on the link https://www.oracle.com/in/middleware/technologies/goldengate-downloads.html 
 - Select ***Oracle GoldenGate for Big Data 19.1.0.0.1 on Linux x86-64***
 
 ![](/images/bd/bd_1.png)
 
-2. accpet the Oracle license agreement and press Download button
+2. Accpet the Oracle license agreement and press Download button
 ![](/images/bd/bd_2.png)
 
-3. login the Oracel SSO portal by passing registered usename and password
+3. Login the Oracel SSO portal by passing registered usename and password
  ![](/images/bd/bd_3.png)
 
 4. Save the Oracle Bigdata Binaries Files to Local desktop
