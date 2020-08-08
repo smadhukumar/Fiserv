@@ -46,7 +46,6 @@ drwxr-xr-x. 3 oracle oinstall 4.0K Jul 28 18:23 bin
 drwxr-xr-x. 2 oracle oinstall   44 Jul 28 18:23 site-docs
 drwxr-xr-x. 2 oracle oinstall 8.0K Aug  7 11:42 libs
 [oracle@hol kafka_2.13-2.6.0]$
-
 ```
 
 
@@ -55,10 +54,8 @@ drwxr-xr-x. 2 oracle oinstall 8.0K Aug  7 11:42 libs
 ```
 [oracle@hol ~]$cd <GOLDENGATE_FOR_BIGDATA_HOME>/dirprm
 [oracle@hol dirprm]$ vi kafka.props
-
 ```
 Copy paste the below text in hdfs.props.
-
 
 ## Apache Kafka properties for GG4BD
 
@@ -67,12 +64,12 @@ gg.handlerlist = kafkahandler
 gg.handler.kafkahandler.type=kafka
 gg.handler.kafkahandler.KafkaProducerConfigFile=custom_kafka_producer.properties
 #The following resolves the topic name using the short table name
-gg.handler.kafkahandler.topicMappingTemplate=${tableName}
+## Topic name is madhuGoldenGate
+gg.handler.kafkahandler.topicMappingTemplate=madhuGoldenGate
 #The following selects the message key using the concatenated primary keys
 gg.handler.kafkahandler.keyMappingTemplate=${primaryKeys}
 gg.handler.kafkahandler.format=avro_op
-## Topic name is madhuGoldenGate
-gg.handler.kafkahandler.SchemaTopicName=madhuGoldenGate
+gg.handler.kafkahandler.SchemaTopicName=mySchemaTopic
 gg.handler.kafkahandler.BlockingSend =false
 gg.handler.kafkahandler.includeTokens=false
 gg.handler.kafkahandler.mode=op
@@ -89,12 +86,11 @@ gg.log.level=INFO
 gg.report.time=30sec
 
 #Sample gg.classpath for Apache Kafka
-gg.classpath=dirprm/:/u01/ggbd/kafka-2.6.0-src/libs/*
+gg.classpath=dirprm/:/u01/ggbd/kafka_2.13-2.6.0/libs/*
 #Sample gg.classpath for HDP
 #gg.classpath=/etc/kafka/conf:/usr/hdp/current/kafka-broker/libs/*
 
 javawriter.bootoptions=-Xmx512m -Xms32m -Djava.class.path=ggjava/ggjava.jar
-
 ```
 Save the text using wq!
 
@@ -119,14 +115,13 @@ MAP QASOURCE.*, TARGET QASOURCE.*;
 ```
 3. Add Kafka producer property file to custom_kafka_producer.properties
 
-
 Copy paste the below text in custom_kafka_producer.properties
 - hostname = 10.10.1.3
 - Port = 9092
 
 ```
 #bootstrap.servers=hostname:port
-bootstrap.servers=10.10.1.3:9092
+bootstrap.servers=hol.sub05051224240.integration.oraclevcn.com:9092
 acks=1
 reconnect.backoff.ms=1000
 
@@ -180,15 +175,15 @@ MANAGER     RUNNING
 REPLICAT    RUNNING     RKAFKA      00:00:00      00:00:04
 
 
-GGSCI (hol) 5> stats rhdfs
+GGSCI (hol) 5>  stats rkafka
 
-Sending STATS request to REPLICAT RHDFS ...
+Sending STATS request to REPLICAT RKAFKA ...
 
-Start of Statistics at 2020-07-31 16:18:24.
+Start of Statistics at 2020-08-08 17:55:48.
 
 Replicating from QASOURCE.TCUSTMER to QASOURCE.TCUSTMER:
 
-*** Total statistics since 2020-07-31 14:39:24 ***
+*** Total statistics since 2020-08-08 17:55:25 ***
         Total inserts                                      5.00
         Total updates                                      1.00
         Total deletes                                      0.00
@@ -196,7 +191,7 @@ Replicating from QASOURCE.TCUSTMER to QASOURCE.TCUSTMER:
         Total discards                                     0.00
         Total operations                                   6.00
 
-*** Daily statistics since 2020-07-31 14:39:24 ***
+*** Daily statistics since 2020-08-08 17:55:25 ***
         Total inserts                                      5.00
         Total updates                                      1.00
         Total deletes                                      0.00
@@ -204,7 +199,7 @@ Replicating from QASOURCE.TCUSTMER to QASOURCE.TCUSTMER:
         Total discards                                     0.00
         Total operations                                   6.00
 
-*** Hourly statistics since 2020-07-31 14:39:24 ***
+*** Hourly statistics since 2020-08-08 17:55:25 ***
         Total inserts                                      5.00
         Total updates                                      1.00
         Total deletes                                      0.00
@@ -212,7 +207,7 @@ Replicating from QASOURCE.TCUSTMER to QASOURCE.TCUSTMER:
         Total discards                                     0.00
         Total operations                                   6.00
 
-*** Latest statistics since 2020-07-31 14:39:24 ***
+*** Latest statistics since 2020-08-08 17:55:25 ***
         Total inserts                                      5.00
         Total updates                                      1.00
         Total deletes                                      0.00
@@ -222,7 +217,7 @@ Replicating from QASOURCE.TCUSTMER to QASOURCE.TCUSTMER:
 
 Replicating from QASOURCE.TCUSTORD to QASOURCE.TCUSTORD:
 
-*** Total statistics since 2020-07-31 14:39:24 ***
+*** Total statistics since 2020-08-08 17:55:25 ***
         Total inserts                                      5.00
         Total updates                                      3.00
         Total deletes                                      2.00
@@ -230,7 +225,7 @@ Replicating from QASOURCE.TCUSTORD to QASOURCE.TCUSTORD:
         Total discards                                     0.00
         Total operations                                  10.00
 
-*** Daily statistics since 2020-07-31 14:39:24 ***
+*** Daily statistics since 2020-08-08 17:55:25 ***
         Total inserts                                      5.00
         Total updates                                      3.00
         Total deletes                                      2.00
@@ -238,7 +233,7 @@ Replicating from QASOURCE.TCUSTORD to QASOURCE.TCUSTORD:
         Total discards                                     0.00
         Total operations                                  10.00
 
-*** Hourly statistics since 2020-07-31 14:39:24 ***
+*** Hourly statistics since 2020-08-08 17:55:25 ***
         Total inserts                                      5.00
         Total updates                                      3.00
         Total deletes                                      2.00
@@ -246,7 +241,7 @@ Replicating from QASOURCE.TCUSTORD to QASOURCE.TCUSTORD:
         Total discards                                     0.00
         Total operations                                  10.00
 
-*** Latest statistics since 2020-07-31 14:39:24 ***
+*** Latest statistics since 2020-08-08 17:55:25 ***
         Total inserts                                      5.00
         Total updates                                      3.00
         Total deletes                                      2.00
@@ -263,10 +258,41 @@ GGSCI (hol) 6>
 4. Crosscheck at Apache Kafka for the replicat’s status
 
 ```
-[oracle@hol ggbd]$ hdfs dfs -ls /ogg1
-Found 2 items
--rw-r--r--   3 oracle oinstall        905 2020-07-31 14:39 /ogg1/QASOURCE.TCUSTMER_RHDFS_2020-07-31_14-39-24.538.txt
--rw-r--r--   3 oracle oinstall       2305 2020-07-31 14:39 /ogg1/QASOURCE.TCUSTORD_RHDFS_2020-07-31_14-39-25.896.txt
+[oracle@hol ggbd]$ cd kafka_2.13-2.6.0/
+[oracle@hol kafka_2.13-2.6.0]$ bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+CUSTOGG
+mySchemaTopic
+[oracle@hol kafka_2.13-2.6.0]$ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic CUSTOGG  --from-beginning
+"QASOURCE.TCUSTMERI42015-11-05 18:45:36.00000042020-08-08T17:55:25.894000(00000000000000001956CUST_CODWILLBG SOFTWARE CO.SEATTLEWA
+"QASOURCE.TCUSTMERI42015-11-05 18:45:36.00000042020-08-08T17:55:27.050000(00000000000000002126CUST_CODJANE ROCKY FLYER INC.
+DENVERCO
+"QASOURCE.TCUSTORDI42015-11-05 18:45:36.00000042020-08-08T17:55:27.058000(0000000000000000292CUST_CODEORDER_DATEPRODUCT_CODEORDER_IWILL&1994-09-30 15:33:00CARb@▒@Y@
+"QASOURCE.TCUSTORDI42015-11-05 18:45:36.00000042020-08-08T17:55:27.063000(0000000000000000310CUST_CODEORDER_DATEPRODUCT_CODEORDER_IJANE&1995-11-11 13:52:00
+PLANEp@▒EAY@
+"QASOURCE.TCUSTMERI42015-11-05 18:45:39.00000042020-08-08T17:55:27.064000(00000000000000003286CUST_CODDAVE$DAVE'S PLANES INC.TALLAHASSEEFL
+"QASOURCE.TCUSTMERI42015-11-05 18:45:39.00000042020-08-08T17:55:27.065000(00000000000000003462CUST_CODBILL BILL'S USED CARS
+DENVERCO
+"QASOURCE.TCUSTMERI42015-11-05 18:45:39.00000042020-08-08T17:55:27.065001(00000000000000003600CUST_CODEANNANN'S BOATSSEATTLEWA
+"QASOURCE.TCUSTORDI42015-11-05 18:45:39.00000042020-08-08T17:55:27.066000(0000000000000000373CUST_CODEORDER_DATEPRODUCT_CODEORDER_IBILL&1995-12-31 15:00:00CAR▒@L▒@Y@
+"QASOURCE.TCUSTORDI42015-11-05 18:45:39.00000042020-08-08T17:55:27.067000(0000000000000000394CUST_CODEORDER_DATEPRODUCT_CODEORDER_IBILL&1996-01-01 00:00:00
+TRUCK▒t@d▒@Y@
+"QASOURCE.TCUSTORDI42015-11-05 18:45:39.00000042020-08-08T17:55:27.070000(0000000000000000412CUST_CODEORDER_DATEPRODUCT_CODEORDER_IDAVE&1993-11-03 07:51:35
+PLANE▒@▒zAi@
+"QASOURCE.TCUSTORDU42015-11-05 18:45:39.00000042020-08-08T17:55:27.071000(0000000000000000430CUST_CODEORDER_DATEPRODUCT_CODEORDER_IBILL&1995-12-31 15:00:00CAR▒@L▒@YBILL&1995-12-31 15:00:00CAR▒@X▒@
+"QASOURCE.TCUSTORDU42015-11-05 18:45:39.00000042020-08-08T17:55:27.072000(0000000000000000458CUST_CODEORDER_DATEPRODUCT_CODEORDER_IBILL&1996-01-01 00:00:00
+TRUCK▒t@d▒@YBILL&1996-01-01 00:00:00
+TRUCK▒t@j▒@
+"QASOURCE.TCUSTORDU42015-11-05 18:45:39.00000042020-08-08T17:55:27.073000(0000000000000000484CUST_CODEORDER_DATEPRODUCT_CODEORDER_IWILL&1994-09-30 15:33:00CARb@▒@YWILL&1994-09-30 15:33:00CARb@"▒@
+"QASOURCE.TCUSTMERU42015-11-05 18:45:39.00000042020-08-08T17:55:27.079000(00000000000000005100CUST_CODEANNANN'S BOATSSEATTLEWAANNNEW YORKNY
+"QASOURCE.TCUSTORDD42015-11-05 18:45:39.00000042020-08-08T17:55:27.080000(0000000000000000527CUST_CODEORDER_DATEPRODUCT_CODEORDER_IDAVE&1993-11-03 07:51:35
+PLANE▒@▒zAi@
+"QASOURCE.TCUSTORDD42015-11-05 18:45:39.00000042020-08-08T17:55:27.085000(0000000000000000548CUST_CODEORDER_DATEPRODUCT_CODEORDER_IJANE&1995-11-11 13:52:00
+PLANEp@▒EAY@
+
+
+^CProcessed a total of 16 messages
+
+
 ``` 
 
 
