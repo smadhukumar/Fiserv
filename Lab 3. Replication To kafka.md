@@ -116,7 +116,7 @@ MAP QASOURCE.*, TARGET QASOURCE.*;
 3. Add Kafka producer property file to custom_kafka_producer.properties
 
 Copy paste the below text in custom_kafka_producer.properties
-- hostname = 10.10.1.3
+- hostname = hol.sub05051224240.integration.oraclevcn.com
 - Port = 9092
 
 ```
@@ -295,5 +295,7 @@ PLANEp@▒EAY@
 
 ``` 
 
+You have completed replication to Kafka! Great Job!
 
+<a href="https://github.com/smadhukumar/Fiserv" target="_blank">Click here to return</a>
 
