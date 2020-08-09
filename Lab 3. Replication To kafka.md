@@ -5,7 +5,7 @@
 
 - Apache  Kafka 2.6.0
 - GoldenGate 19c for BigData -Version 19.1.0.0.4 (Build 001)
-- kafka client libraries at *** /u01/ggbd/kafka-2.6.0-src/ ***
+- kafka client libraries at *** /u01/ggbd/kafka_2.13-2.6.0/ ***
 
 
 ### Introduction
@@ -295,7 +295,7 @@ PLANEp@▒EAY@
 
 ``` 
 
-You have completed replication to Cloudera hadoop :sunglasses: ! Great Job! 	:wink:
+You have completed replication to Apache Kafka :sunglasses: ! Great Job! 	:wink:
 
 <a href="https://github.com/smadhukumar/Fiserv" target="_blank">Click here to return</a>
 
