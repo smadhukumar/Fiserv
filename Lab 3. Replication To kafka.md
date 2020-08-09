@@ -295,7 +295,7 @@ PLANEp@▒EAY@
 
 ``` 
 
-You have completed replication to Kafka! Great Job!
+You have completed replication to Cloudera hadoop :sunglasses: ! Great Job! 	:wink:
 
 <a href="https://github.com/smadhukumar/Fiserv" target="_blank">Click here to return</a>
 
